@@ -18,7 +18,8 @@ class User(db.Model):
     city = db.Column(db.String(30), nullable=False)
     verified = db.Column(db.Boolean, nullable=False)
     ping = db.Column(db.String(4), nullable=False)
-    ads = db.relationship('Ads', backref='user', lazy=True)
+    ad_buyer = db.relationship('Ad', backref='user', lazy=True)
+   
     bank = db.relationship('Bank', backref='user', lazy=True)
 
     def __init__(self, username):
@@ -38,9 +39,8 @@ class Ad(db.Model):
     picture = db.Column(db.String(10), nullable=False)
     isavailable = db.Column(db.Boolean, nullable=False)
     ad_amount = db.Column(db.Integer, nullable=False)
-    bank_ad = db.relationship('Ad_bank', backref='ad', lazy=True)
-    user_id1 = db.Column(db.Integer, db.ForeignKey('user.user_id'),
-        nullable=False)
+    ad_buyer = db.relationship('AdBank', backref='ad', lazy=True)
+    
     user_id2 = db.Column(db.Integer, db.ForeignKey('user.user_id'),
     nullable=False)
 
@@ -71,7 +71,7 @@ class Bank(db.Model):
     """ users to do tasks """
     bank_id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(30), nullable=False)
-    bank_ad = db.relationship('Ad_bank', backref='bank', lazy=True)
+    bank_ad = db.relationship('AdBank', backref='bank', lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'),
         nullable=False)
 

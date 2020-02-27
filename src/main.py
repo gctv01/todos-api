@@ -8,7 +8,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
-from models import db
+from models import db, User, Ad, AdBank
 
 
 app = Flask(__name__)
@@ -29,23 +29,20 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-@app.route('/casacadena/submit_register/', methods=['POST', 'GET'])
+@app.route('/casacadena/submit_register', methods=['POST', 'GET'])
 def handle_submit_register():
-    email_from_register_form = request.form['register_email']
     username_from_register_form = request.form['register_username']
-    cedula_from_register_form = request.form['register_document_id']
-    password_from_register_form = request.form['register_password']
-    city_from_register_form = request.form['register_city']
+
     headers = {
         "Content-Type": "application/json"
     }
     # check if user exists.
-    requesting_user = User.query.filter_by(email=email_from_register_form).one_or_none()
+    requesting_user = User.query.filter_by(user_username=register_username.one_or_none()
 
     # user is requesting todos or user creation and sample todo.
     if request.method == "POST":
-        print("hello, working!")
-        if len(requesting_user) > 0:
+        if len(requesting_user) >=0:
+
             # user exists, this is a no go...
             response_body = {
                 "status": "HTTP_400_BAD_REQUEST. User cannot be created again..."
@@ -66,9 +63,9 @@ def handle_submit_register():
 
 
             print("creating user with this username")
-            new_user = User(username)
+            new_user = user(document_id_from_register_form, name_from_register_form, username_from_register_form, password_from_register_form, city_from_register_form)
             db.session.add(new_user)
-           
+
             
             
             db.session.commit()
