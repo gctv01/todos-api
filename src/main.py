@@ -31,17 +31,17 @@ def sitemap():
 
 @app.route('/casacadena/submit_register', methods=['POST', 'GET'])
 def handle_submit_register():
-    username_from_register_form = request.form['register_username']
+    username_from_register_form = request.json['register_username']
 
     headers = {
         "Content-Type": "application/json"
     }
     # check if user exists.
-    requesting_user = User.query.filter_by(user_username=register_username.one_or_none()
+    requesting_user = User.query.filter_by(username=username_from_register_form).one_or_none()
 
     # user is requesting todos or user creation and sample todo.
     if request.method == "POST":
-        if len(requesting_user) >=0:
+        if requesting_user:
 
             # user exists, this is a no go...
             response_body = {
@@ -51,19 +51,19 @@ def handle_submit_register():
 
         else:
             # user does not exist, creating succesfully
-            document_id_from_register_form = request.form['register_document_id']
-            name_from_register_form = request.form['register_name']
-            name2_from_register_form = request.form['register_name2']
-            last_name_from_register_form = request.form['register_last_name']
-            last_name2_from_register_form = request.form['register_last']
-            username_from_register_form = request.form['register_username']
-            password_from_register_form = request.form['register_password']
-            phone_number_from_register_form = request.form['register_phone_number']
-            city_from_register_form = request.form['register_city']
+            document_id_from_register_form = request.json['register_document_id']
+            name_from_register_form = request.json['register_name']
+            name2_from_register_form = request.json['register_name2']
+            last_name_from_register_form = request.json['register_last_name']
+            last_name2_from_register_form = request.json['register_last_name_2']
+            username_from_register_form = request.json['register_username']
+            password_from_register_form = request.json['register_password']
+            phone_number_from_register_form = request.json['register_phone_number']
+            city_from_register_form = request.json['register_city']
 
 
             print("creating user with this username")
-            new_user = user(document_id_from_register_form, name_from_register_form, username_from_register_form, password_from_register_form, city_from_register_form)
+            new_user = User(document_id_from_register_form, username_from_register_form)
             db.session.add(new_user)
 
             

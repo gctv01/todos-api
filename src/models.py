@@ -5,25 +5,27 @@ db = SQLAlchemy()
 class User(db.Model):
     """ todo list user """
     user_id= db.Column(db.Integer, primary_key=True)
-    document_id = db.Column(db.String(30), nullable=False)
-    name = db.Column(db.String(30), nullable=False)
+    document_id = db.Column(db.String(30), nullable=True)
+    name = db.Column(db.String(30), nullable=True)
     name2 = db.Column(db.String(30), nullable=True)
-    last_name = db.Column(db.String(30), nullable=False)
-    last_name2 = db.Column(db.String(30), nullable=False)
-    username = db.Column(db.String(30), nullable=False)
-    ip_address = db.Column(db.String(24), nullable=False)
-    email = db.Column(db.String(30), nullable=False)
-    password = db.Column(db.String(30), nullable=False)
-    phone_number = db.Column(db.String(11), nullable=False)
-    city = db.Column(db.String(30), nullable=False)
-    verified = db.Column(db.Boolean, nullable=False)
-    ping = db.Column(db.String(4), nullable=False)
+    last_name = db.Column(db.String(30), nullable=True)
+    last_name2 = db.Column(db.String(30), nullable=True)
+    username = db.Column(db.String(30), nullable=True)
+    ip_address = db.Column(db.String(24), nullable=True)
+    email = db.Column(db.String(30), nullable=True)
+    password = db.Column(db.String(30), nullable=True)
+    phone_number = db.Column(db.String(11), nullable=True)
+    city = db.Column(db.String(30), nullable=True)
+    verified = db.Column(db.Boolean, nullable=True)
+    ping = db.Column(db.String(4), nullable=True)
     ad_buyer = db.relationship('Ad', backref='user', lazy=True)
    
     bank = db.relationship('Bank', backref='user', lazy=True)
 
-    def __init__(self, username):
+    def __init__(self, document_id, username):
         self.username = username.strip()
+        self.document_id = document_id.strip()
+        
 
 class Ad(db.Model):
     """ users to do tasks """
